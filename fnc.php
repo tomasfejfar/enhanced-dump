@@ -204,8 +204,8 @@ function dtrace()
     } else {
         $type = ' ';
     }
-    $function = $trace['function'];
-    return sprintf("%s%s%s() line %s", $class, $type, $function, $line);
+    $function = isset($trace['function']) ? $trace['function'] : '';
+    return sprintf("%s%s%s() line %s <small>(in %s)</small>", $class, $type, $function, $line, $file);
 }
 
 /**
