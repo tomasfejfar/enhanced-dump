@@ -129,6 +129,6 @@ function dtrace()
   } else {
     $type = ' ';
   }
-  $function = $bt[2]['function'];
-  return sprintf("%s%s%s() line %s <small>(in %s)</small>",$class, $type, $function, $line, $file);;
+  $function = isset($bt[2]['function']) ? $bt[2]['function'] : '';
+  return sprintf("%s%s%s() line %s <small>(in %s)</small>",$class, $type, $function, $line, $file);
 }
