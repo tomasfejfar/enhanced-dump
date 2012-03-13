@@ -1,61 +1,61 @@
 <?php
 /**
- * Simple dump.
+ * Simple variable dump.
  *
- * @param mixed $x input
+ * @param  mixed  $var   The variable to dump.
  */
-function d($x)
+function d($var)
 {
   echo '<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
   echo dtrace();
   echo '<pre style="margin:0px;padding:0px;">'."\r\n";
-  var_dump($x);
+  var_dump($var);
   echo '</pre>'."\r\n";
   echo '</div>'."\r\n";
 }
 
 /**
- * Dump and die.
+ * Dump variable and die.
  *
- * @param mixed $x input
+ * @param  mixed  $var   The variable to dump.
  */
-function dd($x)
+function dd($var)
 {
   echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
   echo dtrace();
   echo '<pre style="margin:0px;padding:0px;">'."\r\n";
-  var_dump($x);
+  var_dump($var);
   echo '</pre>'."\r\n";
   echo '</div>'."\r\n";
   die();
 }
 
 /**
- * Dump as string.
+ * Dump variable as string.
  *
- * @param mixed $x input
+ * @param  mixed  $var   The variable to dump.
  */
-function ds($x)
+function ds($var)
 {
   echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
   echo dtrace();
   echo '<pre style="margin:0px;padding:0px;">'."\r\n";
-  var_dump((string)$x);
+  var_dump((string) $var);
   echo '</pre>'."\r\n";
   echo '</div>'."\r\n";
 }
 
 /**
- * Dump as string and die.
+ * Dump variable as string and die.
  *
- * @param mixed $x input
+ * @param  mixed  $var   The variable to dump.
  */
 function dsd($x)
 {
   echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
   echo dtrace();
   echo '<pre style="margin:0px;padding:0px;">'."\r\n";
-  var_dump((string)$x);
+  var_dump((string) $var);
   echo '</pre>'."\r\n";
   echo '</div>'."\r\n";
   die();
@@ -64,7 +64,6 @@ function dsd($x)
 /**
  * Print peak memory usage.
  *
- * @param mixed $x input
  */
 function dmem()
 {
