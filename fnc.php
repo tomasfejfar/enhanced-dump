@@ -18,10 +18,14 @@ function cli_decorate($text)
  * Dump variable
  *
  * @param mixed $var The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function d($var)
+function d($var, $label = null)
 {
     decorate('<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
+    }
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
     decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
@@ -35,10 +39,14 @@ function d($var)
  * Dump variable and die.
  *
  * @param mixed $var The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function dd($var)
+function dd($var, $label = null)
 {
     decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
+    }
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
     decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
@@ -54,11 +62,15 @@ function dd($var)
  * Dump variable as string
  *
  * @param mixed $var The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function ds($var)
+function ds($var, $label = null)
 {
     decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
-    $trace = dtrace();
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
+    }
+	$trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
     decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
     var_dump((string) $var) . PHP_EOL;
@@ -71,10 +83,14 @@ function ds($var)
  * Dump variable as string and die.
  *
  * @param mixed $var The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function dsd($var)
+function dsd($var, $label = null)
 {
     decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
+    }
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
     decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
@@ -277,7 +293,7 @@ function dxml($xml)
         error_reporting(0); // PEAR has lots of strict errors
         if (class_exists('XML_Beautifier')) {
             $fmt = new XML_Beautifier();
-            $xml = "\n" . $fmt->formatString($xml, "Plain");
+            $xml = PHP_EOL . $fmt->formatString($xml, "Plain");
         }
         error_reporting($er);
     }
