@@ -3,10 +3,14 @@
  * Simple variable dump.
  *
  * @param  mixed  $var   The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function d($var)
+function d($var, $label = null)
 {
     echo '<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />\n";
+    }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump($var);
@@ -18,10 +22,14 @@ function d($var)
  * Dump variable and die.
  *
  * @param  mixed  $var   The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function dd($var)
+function dd($var, $label = null)
 {
     echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />\n";
+    }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump($var);
@@ -34,10 +42,14 @@ function dd($var)
  * Dump variable as string.
  *
  * @param  mixed  $var   The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function ds($var)
+function ds($var, $label = null)
 {
     echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />\n";
+    }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump((string) $var);
@@ -49,10 +61,14 @@ function ds($var)
  * Dump variable as string and die.
  *
  * @param  mixed  $var   The variable to dump.
+ * @param  string $label OPTIONAL Label to prepend to output.
  */
-function dsd($x)
+function dsd($x, $label = null)
 {
     echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    if ($label) {
+        echo "<strong>" . $label . "</strong><br />\n";
+    }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump((string) $var);
