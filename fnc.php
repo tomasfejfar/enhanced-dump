@@ -6,12 +6,12 @@
  */
 function d($var)
 {
-    echo '<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
+    echo '<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\r\n";
+    echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump($var);
-    echo '</pre>'."\r\n";
-    echo '</div>'."\r\n";
+    echo '</pre>'."\n";
+    echo '</div>'."\n";
 }
 
 /**
@@ -21,12 +21,12 @@ function d($var)
  */
 function dd($var)
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\r\n";
+    echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump($var);
-    echo '</pre>'."\r\n";
-    echo '</div>'."\r\n";
+    echo '</pre>'."\n";
+    echo '</div>'."\n";
     die();
 }
 
@@ -37,12 +37,12 @@ function dd($var)
  */
 function ds($var)
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\r\n";
+    echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump((string) $var);
-    echo '</pre>'."\r\n";
-    echo '</div>'."\r\n";
+    echo '</pre>'."\n";
+    echo '</div>'."\n";
 }
 
 /**
@@ -52,12 +52,12 @@ function ds($var)
  */
 function dsd($x)
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\r\n";
+    echo '<pre style="margin:0px;padding:0px;">'."\n";
     var_dump((string) $var);
-    echo '</pre>'."\r\n";
-    echo '</div>'."\r\n";
+    echo '</pre>'."\n";
+    echo '</div>'."\n";
     die();
 }
 
@@ -67,12 +67,12 @@ function dsd($x)
  */
 function dmem()
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\r\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\r\n";
+    echo '<pre style="margin:0px;padding:0px;">'."\n";
     echo round(memory_get_peak_usage()/1024) . 'K of '.ini_get("memory_limit");
-    echo '</pre>'."\r\n";
-    echo '</div>'."\r\n";
+    echo '</pre>'."\n";
+    echo '</div>'."\n";
 }
 
 /**
