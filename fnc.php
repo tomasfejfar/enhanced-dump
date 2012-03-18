@@ -7,15 +7,15 @@
  */
 function d($var, $label = null)
 {
-    echo '<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    echo '<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL;
     if ($label) {
-        echo "<strong>" . $label . "</strong><br />\n";
+        echo sprintf('<strong>%s</strong><br />', $label) . PHP_EOL;
     }
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\n";
+    echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
     var_dump($var);
-    echo '</pre>'."\n";
-    echo '</div>'."\n";
+    echo '</pre>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
 }
 
 /**
@@ -26,15 +26,15 @@ function d($var, $label = null)
  */
 function dd($var, $label = null)
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL;
     if ($label) {
-        echo "<strong>" . $label . "</strong><br />\n";
+        echo sprintf('<strong>%s</strong><br />', $label) . PHP_EOL;
     }
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\n";
+    echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
     var_dump($var);
-    echo '</pre>'."\n";
-    echo '</div>'."\n";
+    echo '</pre>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
     die();
 }
 
@@ -46,15 +46,15 @@ function dd($var, $label = null)
  */
 function ds($var, $label = null)
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL;
     if ($label) {
-        echo "<strong>" . $label . "</strong><br />\n";
+        echo sprintf('<strong>%s</strong><br />', $label) . PHP_EOL;
     }
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\n";
+    echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
     var_dump((string) $var);
-    echo '</pre>'."\n";
-    echo '</div>'."\n";
+    echo '</pre>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
 }
 
 /**
@@ -65,15 +65,15 @@ function ds($var, $label = null)
  */
 function dsd($x, $label = null)
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL;
     if ($label) {
-        echo "<strong>" . $label . "</strong><br />\n";
+        echo sprintf('<strong>%s</strong><br />', $label) . PHP_EOL;
     }
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\n";
+    echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
     var_dump((string) $var);
-    echo '</pre>'."\n";
-    echo '</div>'."\n";
+    echo '</pre>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
     die();
 }
 
@@ -83,12 +83,12 @@ function dsd($x, $label = null)
  */
 function dmem()
 {
-    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">'."\n";
+    echo '<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL;
     echo dtrace();
-    echo '<pre style="margin:0px;padding:0px;">'."\n";
-    echo round(memory_get_peak_usage()/1024) . 'K of '.ini_get("memory_limit");
-    echo '</pre>'."\n";
-    echo '</div>'."\n";
+    echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
+	echo sprintf('%sK of %s', round(memory_get_peak_usage()/1024), ini_get('memory_limit'));
+    echo '</pre>' . PHP_EOL;
+    echo '</div>' . PHP_EOL;
 }
 
 /**
@@ -146,5 +146,5 @@ function dtrace()
         $type = ' ';
     }
     $function = isset($bt[2]['function']) ? $bt[2]['function'] : '';
-    return sprintf("%s%s%s() line %s <small>(in %s)</small>",$class, $type, $function, $line, $file);
+    return sprintf('%s%s%s() line %s <small>(in %s)</small>',$class, $type, $function, $line, $file);
 }
