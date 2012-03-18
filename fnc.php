@@ -147,14 +147,14 @@ function dtimer(&$timers, $status = 0, $label = null)
     ];
     if ($status === 1) {
         echo '<table style="border-color: black;" border="1" cellpadding="3" cellspacing="0">';
-        echo '<tr style="background-color:black;color:white;"><th>Trace</th><th>dT</th><th>dT(cumm)</th></tr>';
+        echo '<tr style="background-color:black;color:white;"><th>Trace</th><th>dT [ms]</th><th>dT(cumm) [ms]</th></tr>';
         $lastTime = $timers[0]['time'];
         $firstTime = $timers[0]['time'];
         foreach ($timers as $timer) {
             echo sprintf('<tr><td>%s</td><td>%s</td><td>%s</td></tr>',
                 $timer['where'],
-                sprintf('%01.6f', round($timer['time'] - $lastTime, 6)),
-                sprintf('%01.6f', round($timer['time'] - $firstTime, 6))
+                sprintf('%01.6f',round(($timer['time'] - $lastTime)*1000,6)),
+                sprintf('%01.6f',round(($timer['time'] - $firstTime)*1000,6))
             );
             $lastTime = $timer['time'];
         }
