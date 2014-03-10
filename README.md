@@ -1,3 +1,4 @@
+# Enhanced Dump
 ````
 o----php in index.php line 3----o
 array(2) {
@@ -15,10 +16,16 @@ Add this file to your php.ini as auto prepend file:
 
 then restart your apache/php. 
 
-Usage:
+
+## Usage:
 `d($array)` - vardumps with location
+
 `dd($array)` - vardumps with location and die 
+
 `ds($array)` - vardumps as string with location
+
 `dsd($array)` - vardumps as string with location and die
+
 `dsql($zendDbSelect)` - vardumps as string into textarea with autoselect (useful for copying generated sql)
+
 `dmem()` - dumps memory info
