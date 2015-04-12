@@ -13,7 +13,7 @@ function d($var, $label = null)
     }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
-    var_dump($var);
+    echo htmlentities(return_var_dump($var),ENT_SUBSTITUTE);
     echo '</pre>' . PHP_EOL;
     echo '</div>' . PHP_EOL;
 }
@@ -32,7 +32,7 @@ function dd($var, $label = null)
     }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
-    var_dump($var);
+    echo htmlentities(return_var_dump($var),ENT_SUBSTITUTE);
     echo '</pre>' . PHP_EOL;
     echo '</div>' . PHP_EOL;
     die();
@@ -52,7 +52,8 @@ function ds($var, $label = null)
     }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
-    var_dump((string) $var);
+//    var_dump((string) $var);
+    echo htmlentities(return_var_dump((string)$var),ENT_SUBSTITUTE);//why are we casting it to string?
     echo '</pre>' . PHP_EOL;
     echo '</div>' . PHP_EOL;
 }
@@ -71,7 +72,9 @@ function dsd($x, $label = null)
     }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
-    var_dump((string) $var);
+    //var_dump((string) $var);
+    echo htmlentities(return_var_dump((string)$var),ENT_SUBSTITUTE);
+
     echo '</pre>' . PHP_EOL;
     echo '</div>' . PHP_EOL;
     die();
@@ -148,3 +151,10 @@ function dtrace()
     $function = isset($bt[2]['function']) ? $bt[2]['function'] : '';
     return sprintf('%s%s%s() line %s <small>(in %s)</small>',$class, $type, $function, $line, $file);
 }
+//works like var_dump, but returns a string instead of printing it.
+function return_var_dump(/*...*/) {
+    $args = func_get_args(); //for <5.3.0 support ...
+    ob_start();
+    call_user_func_array('var_dump', $args);
+    return ob_get_clean();
+};
