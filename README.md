@@ -16,6 +16,12 @@ Add this file to your php.ini as auto prepend file:
 
 then restart your apache/php. 
 
+## Using composer
+
+`composer global require tomasfejfar/enhanced-dump`
+
+`auto_prepend_file = c:\Users\[USERNAME]\AppData\Roaming\Composer\vendor\tomasfejfar\enhanced-dump\fnc.php`
+
 
 ## Usage:
 `d($array)` - vardumps with location
