@@ -19,10 +19,5 @@
   ],
   "require": {
     "php": ">=5.3"
-  },
-  "autoload": {
-    "files": [
-      "fnc.php"
-    ]
   }
 }
