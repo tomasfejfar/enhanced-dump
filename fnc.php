@@ -10,6 +10,15 @@ function d($var, $label = null)
     echo '<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL;
     if ($label) {
         echo sprintf('<strong>%s</strong><br />', $label) . PHP_EOL;
+function decorate($text) {
+    if (php_sapi_name() == 'cli') {
+        return;
+    }
+    echo $text;
+}
+function cli_decorate($text) {
+    if (php_sapi_name() == 'cli') {
+        echo $text;
     }
     echo dtrace();
     echo '<pre style="margin:0px;padding:0px;">' . PHP_EOL;
