@@ -198,6 +198,7 @@ function dtrace()
         return sprintf("php in %s line %s", $file, $line);
     }
     $line = $bt[$index - 1]['line'];
+    $file = basename($bt[1]['file']);
     $class = (isset($trace['class']) ? $trace['class'] : basename($trace['file']));
     if (isset($trace['class'])) {
         $type = $trace['type'];
