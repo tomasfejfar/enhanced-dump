@@ -17,6 +17,7 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
+            <file>tests/MethodsTest.php</file>
             <file>tests/CliDumpTest.php</file>
             <file>tests/WebDumpTest.php</file>
         </testsuite>

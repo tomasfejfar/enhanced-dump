@@ -85,7 +85,7 @@ namespace {
 	 * @param mixed $var The variable to dump.
 	 * @param  string $label OPTIONAL Label to prepend to output.
 	 */
-	function ds($var, $label = null)
+	function ds()
 	{
 		$result = '';
 		$trace = dtrace(debug_backtrace());
@@ -93,7 +93,9 @@ namespace {
 
 
 		$args = func_get_args();
-		array_walk($)
+		array_walk($args, function (&$item) {
+			$item = (string) $item;
+		});
 		ob_start();
 		call_user_func_array('var_dump', $args);
 		$result .= ob_get_clean();
