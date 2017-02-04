@@ -48,13 +48,13 @@ namespace {
 	 * @param mixed $var The variable to dump.
 	 * @param  string $label OPTIONAL Label to prepend to output.
 	 */
-	function d($var)
+	function d()
 	{
 		$result = '';
 		$trace = dtrace(debug_backtrace());
 		$result .= EnhancedDump\dumpHeader($trace);
 		ob_start();
-		var_dump($var);
+		call_user_func_array('var_dump', func_get_args());
 		$result .= ob_get_clean();
 		$result .= dumpFooter($trace);
 		echo $result;
@@ -66,20 +66,16 @@ namespace {
 	 * @param mixed $var The variable to dump.
 	 * @param  string $label OPTIONAL Label to prepend to output.
 	 */
-	function dd($var, $label = null)
+	function dd()
 	{
-		echo EnhancedDump\webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
-		if ($label) {
-			echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
-		}
+		$result = '';
 		$trace = dtrace(debug_backtrace());
-		echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-		echo EnhancedDump\webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-		var_dump($var) . PHP_EOL;
-
-		echo EnhancedDump\webOnly('</pre>' . PHP_EOL);
-		echo EnhancedDump\webOnly('</div>' . PHP_EOL);
-		EnhancedDump\cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+		$result .= EnhancedDump\dumpHeader($trace);
+		ob_start();
+		call_user_func_array('var_dump', func_get_args());
+		$result .= ob_get_clean();
+		$result .= dumpFooter($trace);
+		echo $result;
 		die();
 	}
 
@@ -91,17 +87,18 @@ namespace {
 	 */
 	function ds($var, $label = null)
 	{
-		echo EnhancedDump\webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
-		if ($label) {
-			echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
-		}
+		$result = '';
 		$trace = dtrace(debug_backtrace());
-		echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-		echo EnhancedDump\webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-		var_dump((string) $var) . PHP_EOL;
-		echo EnhancedDump\webOnly('</pre>' . PHP_EOL);
-		echo EnhancedDump\webOnly('</div>' . PHP_EOL);
-		EnhancedDump\cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+		$result .= EnhancedDump\dumpHeader($trace);
+
+
+		$args = func_get_args();
+		array_walk($)
+		ob_start();
+		call_user_func_array('var_dump', $args);
+		$result .= ob_get_clean();
+		$result .= dumpFooter($trace);
+		echo $result;
 	}
 
 	/**

@@ -109,6 +109,25 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
+	public function testWillDumpMultipleArguments(): void
+	{
+
+		ob_start();
+		d([], 5, 'string');
+		$actual = ob_get_clean();
+		$expected = <<<EXPECTED
+
+o---- CliDumpTest->testWillDumpMultipleArguments() in CliDumpTest.php:116 ----o
+array(0) {
+}
+int(5)
+string(6) "string"
+o-----------------------------------------------------------------------------o
+
+EXPECTED;
+		self::assertSame($expected, self::normalizeLineEndings($actual));
+	}
+
 	/**
 	 * Normalizes line ending as the dump uses PHP_EOL but the expected string has linux endings
 	 *
