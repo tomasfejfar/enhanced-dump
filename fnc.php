@@ -1,16 +1,16 @@
 <?php
-function decorate($text)
+function webOnly($text)
 {
     if (php_sapi_name() == 'cli') {
         return;
     }
-    echo $text;
+    return $text;
 }
 
-function cli_decorate($text)
+function cliOnly($text)
 {
     if (php_sapi_name() == 'cli') {
-        echo $text;
+        return $text;
     }
 }
 
@@ -22,17 +22,21 @@ function cli_decorate($text)
  */
 function d($var, $label = null)
 {
-    decorate('<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+	$result = '';
+	$trace = dtrace();
+    $result .= webOnly('<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     if ($label) {
-        echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
+        $result .= "<strong>" . $label . "</strong><br />" . PHP_EOL;
     }
-    $trace = dtrace();
-    echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-    decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-    var_dump($var) . PHP_EOL;
-    decorate('</pre>' . PHP_EOL);
-    decorate('</div>' . PHP_EOL);
-    cli_decorate('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    $result .= PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
+    $result .= webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
+    ob_start();
+	var_dump($var);
+	$result .= ob_get_clean();
+	$result .= webOnly('</pre>' . PHP_EOL);
+    $result .= webOnly('</div>' . PHP_EOL);
+    $result .= cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL);
+    echo $result;
 }
 
 /**
@@ -43,18 +47,18 @@ function d($var, $label = null)
  */
 function dd($var, $label = null)
 {
-    decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    echo webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     if ($label) {
         echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
     }
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-    decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
+    echo webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
     var_dump($var) . PHP_EOL;
 
-    decorate('</pre>' . PHP_EOL);
-    decorate('</div>' . PHP_EOL);
-    cli_decorate('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    echo webOnly('</pre>' . PHP_EOL);
+    echo webOnly('</div>' . PHP_EOL);
+    cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
     die();
 }
 
@@ -66,17 +70,17 @@ function dd($var, $label = null)
  */
 function ds($var, $label = null)
 {
-    decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    echo webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     if ($label) {
         echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
     }
 	$trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-    decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
+    echo webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
     var_dump((string) $var) . PHP_EOL;
-    decorate('</pre>' . PHP_EOL);
-    decorate('</div>' . PHP_EOL);
-    cli_decorate('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    echo webOnly('</pre>' . PHP_EOL);
+    echo webOnly('</div>' . PHP_EOL);
+    cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
 }
 
 /**
@@ -87,17 +91,17 @@ function ds($var, $label = null)
  */
 function dsd($var, $label = null)
 {
-    decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    echo webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     if ($label) {
         echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
     }
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-    decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
+    echo webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
     var_dump((string) $var) . PHP_EOL;
-    decorate('</pre>' . PHP_EOL);
-    decorate('</div>' . PHP_EOL);
-    cli_decorate('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    echo webOnly('</pre>' . PHP_EOL);
+    echo webOnly('</div>' . PHP_EOL);
+    cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
     die();
 }
 
@@ -111,16 +115,16 @@ function dsql($var)
     if (!headers_sent()) {
         header('Content-Type:text/html; charset=utf-8');
     }
-    decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    echo webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-    decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-    decorate('<textarea style="width:100%;height:100%" onclick="this.select()">' . PHP_EOL);
+    echo webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
+    echo webOnly('<textarea style="width:100%;height:100%" onclick="this.select()">' . PHP_EOL);
     echo (string) $var . PHP_EOL;
-    decorate('</textarea>');
-    decorate('</pre>' . PHP_EOL);
-    decorate('</div>' . PHP_EOL);
-    cli_decorate('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    echo webOnly('</textarea>');
+    echo webOnly('</pre>' . PHP_EOL);
+    echo webOnly('</div>' . PHP_EOL);
+    cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
     die();
 }
 
@@ -129,15 +133,15 @@ function dsql($var)
  */
 function dmem()
 {
-    decorate('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    echo webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-    decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-    cli_decorate('| ');
+    echo webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
+    cliOnly('| ');
     echo round(memory_get_peak_usage() / 1024) . 'K of ' . ini_get("memory_limit") . PHP_EOL;
-    decorate('</pre>' . PHP_EOL);
-    decorate('</div>' . PHP_EOL);
-    cli_decorate('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    echo webOnly('</pre>' . PHP_EOL);
+    echo webOnly('</div>' . PHP_EOL);
+    cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
 }
 
 /**
@@ -199,14 +203,15 @@ function dtrace()
     }
     $line = $bt[$index - 1]['line'];
     $file = basename($bt[1]['file']);
-    $class = (isset($trace['class']) ? $trace['class'] : basename($trace['file']));
+    $location = '';
+	$type = '';
     if (isset($trace['class'])) {
-        $type = $trace['type'];
-    } else {
-        $type = ' ';
+    	$location = $trace['class'];
+	    $type = $trace['type'];
     }
     $function = isset($trace['function']) ? $trace['function'] : '';
-    return sprintf("%s%s%s() line %s <small>(in %s)</small>", $class, $type, $function, $line, $file);
+	$traceString = ' %s%s%s() line %s ' . webOnly('<small>') . '(in %s)' . webOnly('</small>') . ' ';
+	return sprintf($traceString, $location, $type, $function, $line, $file);
 }
 
 /**
@@ -299,10 +304,10 @@ function dxml($xml)
         error_reporting($er);
     }
 
-    decorate('<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+    echo webOnly('<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     $trace = dtrace();
     echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-    decorate('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
+    echo webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
     var_dump($xml) . PHP_EOL;
     if (!is_null($xml)) {
         if (class_exists('Zend_Debug')) { // replaces < > with &lt; &gt;
@@ -311,7 +316,7 @@ function dxml($xml)
             var_dump(htmlspecialchars($xml)) . PHP_EOL;
         }
     }
-    decorate('</pre>' . PHP_EOL);
-    decorate('</div>' . PHP_EOL);
-    cli_decorate('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    echo webOnly('</pre>' . PHP_EOL);
+    echo webOnly('</div>' . PHP_EOL);
+    cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
 }
