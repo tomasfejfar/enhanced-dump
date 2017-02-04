@@ -210,7 +210,7 @@ function dtrace()
 	    $type = $trace['type'];
     }
     $function = isset($trace['function']) ? $trace['function'] : '';
-	$traceString = ' %s%s%s() line %s ' . webOnly('<small>') . '(in %s)' . webOnly('</small>') . ' ';
+	$traceString = ' %1$s%2$s%3$s() ' . webOnly('<small>') . 'in %5$s:%4$s' . webOnly('</small>') . ' ';
 	return sprintf($traceString, $location, $type, $function, $line, $file);
 }
 

@@ -12,10 +12,10 @@ class DumpTest extends \PHPUnit\Framework\TestCase
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- DumpTest->testWillDumpArray() line 11 (in DumpTest.php) ----o
+o---- DumpTest->testWillDumpArray() in DumpTest.php:11 ----o
 array(0) {
 }
-o-----------------------------------------------------------------o
+o----------------------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
@@ -29,9 +29,9 @@ EXPECTED;
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- testDump1() line 5 (in testdumpfile.php) ----o
+o---- testDump1() in testdumpfile.php:5 ----o
 int(5)
-o--------------------------------------------------o
+o-------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
@@ -45,9 +45,9 @@ EXPECTED;
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- testDump1() line 5 (in testdumpfile.php) ----o
+o---- testDump1() in testdumpfile.php:5 ----o
 int(5)
-o--------------------------------------------------o
+o-------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
