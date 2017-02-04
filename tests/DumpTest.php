@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-class DumpTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class DumpTest extends TestCase
 {
 	public function testWillDumpArray(): void
 	{
@@ -12,7 +14,7 @@ class DumpTest extends \PHPUnit\Framework\TestCase
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- DumpTest->testWillDumpArray() in DumpTest.php:11 ----o
+o---- DumpTest->testWillDumpArray() in DumpTest.php:13 ----o
 array(0) {
 }
 o----------------------------------------------------------o
@@ -23,15 +25,15 @@ EXPECTED;
 
 	public function testWillReportCorrectFile(): void
 	{
-		require_once __DIR__ . '/testdumpfile.php';
+		require_once __DIR__ . '/dump-in-class-or-function.php';
 		ob_start();
 		testDump1();
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- testDump1() in testdumpfile.php:5 ----o
+o---- testDump1() in dump-in-class-or-function.php:5 ----o
 int(5)
-o-------------------------------------------o
+o--------------------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
@@ -39,15 +41,62 @@ EXPECTED;
 
 	public function testWillReportCorrectMethod(): void
 	{
-		require_once __DIR__ . '/testdumpfile.php';
+		require_once __DIR__ . '/dump-in-class-or-function.php';
 		ob_start();
 		testDump2();
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- testDump1() in testdumpfile.php:5 ----o
+o---- testDump1() in dump-in-class-or-function.php:5 ----o
 int(5)
-o-------------------------------------------o
+o--------------------------------------------------------o
+
+EXPECTED;
+		self::assertSame($expected, self::normalizeLineEndings($actual));
+	}
+
+	public function testWillReportCorrectClass(): void
+	{
+		require_once __DIR__ . '/dump-in-class-or-function.php';
+		$obj = new EnhancedDumpSampleClass();
+		ob_start();
+		$obj->someMethod();
+		$actual = ob_get_clean();
+		$expected = <<<EXPECTED
+
+o---- EnhancedDumpSampleClass->someMethod() in dump-in-class-or-function.php:16 ----o
+string(4) "DUMP"
+o-----------------------------------------------------------------------------------o
+
+EXPECTED;
+		self::assertSame($expected, self::normalizeLineEndings($actual));
+	}
+
+	public function testWillWorkInDumpingWithoutFunctionOrClassAround(): void
+	{
+		ob_start();
+		require_once __DIR__ . '/dump-directly-in-file.php';
+		$actual = ob_get_clean();
+		$expected = <<<EXPECTED
+
+o---- require_once() in dump-directly-in-file.php:2 ----o
+string(4) "DUMP"
+o-------------------------------------------------------o
+
+EXPECTED;
+		self::assertSame($expected, self::normalizeLineEndings($actual));
+	}
+
+	public function testWillWorkInPlainPhp(): void
+	{
+		ob_start();
+		require_once __DIR__ . '/dump-directly-in-file.php';
+		$actual = ob_get_clean();
+		$expected = <<<EXPECTED
+
+o---- require_once() in dump-directly-in-file.php:2 ----o
+string(4) "DUMP"
+o-------------------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));

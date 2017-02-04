@@ -8,3 +8,11 @@ function testDump1() {
 function testDump2() {
 	testDump1();
 }
+
+class EnhancedDumpSampleClass{
+
+	public function someMethod()
+	{
+		d('DUMP');
+	}
+}
