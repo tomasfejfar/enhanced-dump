@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-class DumpTest extends TestCase
+class CliDumpTest extends TestCase
 {
 	public function testWillDumpArray(): void
 	{
@@ -14,10 +14,10 @@ class DumpTest extends TestCase
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- DumpTest->testWillDumpArray() in DumpTest.php:13 ----o
+o---- CliDumpTest->testWillDumpArray() in CliDumpTest.php:13 ----o
 array(0) {
 }
-o----------------------------------------------------------o
+o----------------------------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
@@ -75,13 +75,13 @@ EXPECTED;
 	public function testWillWorkInDumpingWithoutFunctionOrClassAround(): void
 	{
 		ob_start();
-		require_once __DIR__ . '/dump-directly-in-file.php';
+		require __DIR__ . '/dump-directly-in-file.php';
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- require_once() in dump-directly-in-file.php:3 ----o
+o---- require() in dump-directly-in-file.php:3 ----o
 string(4) "DUMP"
-o-------------------------------------------------------o
+o--------------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));

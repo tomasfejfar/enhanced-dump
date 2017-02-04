@@ -17,7 +17,8 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+            <file>tests/CliDumpTest.php</file>
+            <file>tests/WebDumpTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
