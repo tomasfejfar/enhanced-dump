@@ -24,6 +24,7 @@
     "files": ["fnc.php"]
   },
   "require-dev": {
+    "symfony/process": "3.2.x-dev#32646a7c",
     "phpunit/phpunit": "6.0.3"
   }
 }

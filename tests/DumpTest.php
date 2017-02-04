@@ -79,7 +79,7 @@ EXPECTED;
 		$actual = ob_get_clean();
 		$expected = <<<EXPECTED
 
-o---- require_once() in dump-directly-in-file.php:2 ----o
+o---- require_once() in dump-directly-in-file.php:3 ----o
 string(4) "DUMP"
 o-------------------------------------------------------o
 
@@ -89,14 +89,21 @@ EXPECTED;
 
 	public function testWillWorkInPlainPhp(): void
 	{
-		ob_start();
-		require_once __DIR__ . '/dump-directly-in-file.php';
-		$actual = ob_get_clean();
+		$script = __DIR__ . '/dump-directly-in-file.php';
+		$process = new \Symfony\Component\Process\Process('php ' . $script);
+		$process->start();
+		do {
+			$process->checkTimeout();
+		} while ($process->isRunning() && (usleep(1000) !== false));
+		if (!$process->isSuccessful()) {
+			throw new \Exception($process->getErrorOutput());
+		}
+		$actual = $process->getOutput();
 		$expected = <<<EXPECTED
 
-o---- require_once() in dump-directly-in-file.php:2 ----o
+o---- directly in dump-directly-in-file.php:3 ----o
 string(4) "DUMP"
-o-------------------------------------------------------o
+o-------------------------------------------------o
 
 EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));

@@ -28,14 +28,14 @@ function d($var, $label = null)
     if ($label) {
         $result .= "<strong>" . $label . "</strong><br />" . PHP_EOL;
     }
-    $result .= PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
+    $result .= PHP_EOL . 'o---- ' . $trace . ' ----o' . PHP_EOL;
     $result .= webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
     ob_start();
 	var_dump($var);
 	$result .= ob_get_clean();
 	$result .= webOnly('</pre>' . PHP_EOL);
     $result .= webOnly('</div>' . PHP_EOL);
-    $result .= cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL);
+    $result .= cliOnly('o-----' . str_repeat('-', strlen($trace)) . '-----o' . PHP_EOL);
     echo $result;
 }
 
@@ -135,13 +135,13 @@ function dmem()
 {
     echo webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
     $trace = dtrace();
-    echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
+    echo PHP_EOL . PHP_EOL . 'o---- ' . $trace . ' ----o' . PHP_EOL;
     echo webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
     cliOnly('| ');
     echo round(memory_get_peak_usage() / 1024) . 'K of ' . ini_get("memory_limit") . PHP_EOL;
     echo webOnly('</pre>' . PHP_EOL);
     echo webOnly('</div>' . PHP_EOL);
-    cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+    cliOnly('o-----' . str_repeat('-', strlen($trace)) . '-----o' . PHP_EOL . PHP_EOL);
 }
 
 /**
@@ -199,7 +199,7 @@ function dtrace()
         $line = $trace['line'];
         $file = basename($trace['file']);
         $function = $trace['function'];
-        return sprintf("php in %s line %s", $file, $line);
+        return sprintf("directly in %s:%s", $file, $line);
     }
     $line = $bt[$index - 1]['line'];
     $file = basename($bt[1]['file']);
@@ -210,7 +210,7 @@ function dtrace()
 	    $type = $trace['type'];
     }
     $function = isset($trace['function']) ? $trace['function'] : '';
-	$traceString = ' %1$s%2$s%3$s() ' . webOnly('<small>') . 'in %5$s:%4$s' . webOnly('</small>') . ' ';
+	$traceString = '%1$s%2$s%3$s() ' . webOnly('<small>') . 'in %5$s:%4$s' . webOnly('</small>');
 	return sprintf($traceString, $location, $type, $function, $line, $file);
 }
 
