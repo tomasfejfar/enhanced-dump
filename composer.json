@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.0"
   },
   "autoload": {
     "files": ["fnc.php"]
@@ -26,5 +26,8 @@
   "require-dev": {
     "symfony/process": "3.2.x-dev#32646a7c",
     "phpunit/phpunit": "6.0.3"
+  },
+  "scripts" : {
+    "test": "phpunit"
   }
 }
