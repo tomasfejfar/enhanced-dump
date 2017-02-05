@@ -36,11 +36,38 @@ namespace EnhancedDump {
 		$result .= cliOnly('o-----' . str_repeat('-', strlen($trace)) . '-----o' . PHP_EOL);
 		return $result;
 	}
+
+	function dtrace($debugBacktrace)
+	{
+		if (isset($debugBacktrace[1])) {
+			$index = 1;
+			$trace = $debugBacktrace[$index];
+		} else {
+			$index = 0;
+			$trace = $debugBacktrace[$index];
+			$line = $trace['line'];
+			$file = basename($trace['file']);
+			$filePath = $trace['file'];
+			$traceFile = cliOnly('%s') . webOnly('<a href="editor://' . $filePath . '">%s</a>');
+			return sprintf('directly in ' . $traceFile . ':%s', $file, $line);
+		}
+		$line = $debugBacktrace[$index - 1]['line'];
+		$file = basename($debugBacktrace[0]['file']);
+		$filePath = $debugBacktrace[0]['file'];
+		$location = '';
+		$type = '';
+		if (isset($trace['class'])) {
+			$location = $trace['class'];
+			$type = $trace['type'];
+		}
+		$function = isset($trace['function']) ? $trace['function'] : '';
+		$traceFile = cliOnly('%5$s') . webOnly('<a href="editor://' . $filePath . '">%5$s</a>');
+		$traceString = '%1$s%2$s%3$s() ' . webOnly('<small>') . 'in ' . $traceFile . ':%4$s' . webOnly('</small>');
+		return sprintf($traceString, $location, $type, $function, $line, $file);
+	}
 }
 
 namespace {
-
-	use function EnhancedDump\dumpFooter;
 
 	/**
 	 * Dump variable
@@ -51,12 +78,12 @@ namespace {
 	function d()
 	{
 		$result = '';
-		$trace = dtrace(debug_backtrace());
+		$trace = EnhancedDump\dtrace(debug_backtrace());
 		$result .= EnhancedDump\dumpHeader($trace);
 		ob_start();
 		call_user_func_array('var_dump', func_get_args());
 		$result .= ob_get_clean();
-		$result .= dumpFooter($trace);
+		$result .= EnhancedDump\dumpFooter($trace);
 		echo $result;
 	}
 
@@ -69,12 +96,12 @@ namespace {
 	function dd()
 	{
 		$result = '';
-		$trace = dtrace(debug_backtrace());
+		$trace = EnhancedDump\dtrace(debug_backtrace());
 		$result .= EnhancedDump\dumpHeader($trace);
 		ob_start();
 		call_user_func_array('var_dump', func_get_args());
 		$result .= ob_get_clean();
-		$result .= dumpFooter($trace);
+		$result .= EnhancedDump\dumpFooter($trace);
 		echo $result;
 		die();
 	}
@@ -88,7 +115,7 @@ namespace {
 	function ds()
 	{
 		$result = '';
-		$trace = dtrace(debug_backtrace());
+		$trace = EnhancedDump\dtrace(debug_backtrace());
 		$result .= EnhancedDump\dumpHeader($trace);
 
 		$args = func_get_args();
@@ -98,7 +125,7 @@ namespace {
 		ob_start();
 		call_user_func_array('var_dump', $args);
 		$result .= ob_get_clean();
-		$result .= dumpFooter($trace);
+		$result .= EnhancedDump\dumpFooter($trace);
 		echo $result;
 	}
 
@@ -111,7 +138,7 @@ namespace {
 	function dsd($var, $label = null)
 	{
 		$result = '';
-		$trace = dtrace(debug_backtrace());
+		$trace = EnhancedDump\dtrace(debug_backtrace());
 		$result .= EnhancedDump\dumpHeader($trace);
 
 		$args = func_get_args();
@@ -121,7 +148,7 @@ namespace {
 		ob_start();
 		call_user_func_array('var_dump', $args);
 		$result .= ob_get_clean();
-		$result .= dumpFooter($trace);
+		$result .= EnhancedDump\dumpFooter($trace);
 		echo $result;
 		die();
 	}
@@ -137,14 +164,14 @@ namespace {
 			header('Content-Type:text/html; charset=utf-8');
 		}
 		$result = '';
-		$trace = dtrace(debug_backtrace());
+		$trace = EnhancedDump\dtrace(debug_backtrace());
 		$result .= EnhancedDump\dumpHeader($trace);
 		$result .= EnhancedDump\webOnly('<textarea style="width:100%;height:100%" onclick="this.select()">' . PHP_EOL);
 		ob_start();
 		echo (string) $var . PHP_EOL;
 		$result .= ob_get_clean();
 		$result .= EnhancedDump\webOnly('</textarea>');
-		$result .= dumpFooter($trace);
+		$result .= EnhancedDump\dumpFooter($trace);
 		echo $result;
 		die();
 	}
@@ -156,7 +183,7 @@ namespace {
 	{
 		$result = '';
 		$result .= EnhancedDump\webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
-		$trace = dtrace(debug_backtrace());
+		$trace = EnhancedDump\dtrace(debug_backtrace());
 		$memUsage = memory_get_usage();
 		$units = [
 			1024 => 'K',
@@ -213,41 +240,6 @@ namespace {
 			}
 			echo '</table>';
 		}
-	}
-
-	/**
-	 * Dumps stack trace
-	 *
-	 * @param $debugBacktrace
-	 * @return string
-	 */
-	function dtrace($debugBacktrace)
-	{
-		if (isset($debugBacktrace[1])) {
-			$index = 1;
-			$trace = $debugBacktrace[$index];
-		} else {
-			$index = 0;
-			$trace = $debugBacktrace[$index];
-			$line = $trace['line'];
-			$file = basename($trace['file']);
-			$filePath = $trace['file'];
-			$traceFile = EnhancedDump\cliOnly('%s') . EnhancedDump\webOnly('<a href="editor://' . $filePath . '">%s</a>');
-			return sprintf('directly in ' . $traceFile . ':%s', $file, $line);
-		}
-		$line = $debugBacktrace[$index - 1]['line'];
-		$file = basename($debugBacktrace[0]['file']);
-		$filePath = $debugBacktrace[0]['file'];
-		$location = '';
-		$type = '';
-		if (isset($trace['class'])) {
-			$location = $trace['class'];
-			$type = $trace['type'];
-		}
-		$function = isset($trace['function']) ? $trace['function'] : '';
-		$traceFile = EnhancedDump\cliOnly('%5$s') . EnhancedDump\webOnly('<a href="editor://' . $filePath . '">%5$s</a>');
-		$traceString = '%1$s%2$s%3$s() ' . EnhancedDump\webOnly('<small>') . 'in ' . $traceFile . ':%4$s' . EnhancedDump\webOnly('</small>');
-		return sprintf($traceString, $location, $type, $function, $line, $file);
 	}
 
 	/**
