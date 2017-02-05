@@ -1,20 +1,12 @@
-image: geertw/docker-php-ci:7.0-no-xdebug
-
 language: php
 
 php:
   - 7
   - 7.1
-  - hhvm
-
-env:
-  matrix:
-    - PREFER_LOWEST="--prefer-lowest --prefer-stable"
-    - PREFER_LOWEST=""
 
 before_script:
   - echo 'xdebug.overload_var_dump=0' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer update $PREFER_LOWEST
+  - composer update
 
 script:
   - mkdir -p build/logs
