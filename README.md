@@ -1,4 +1,6 @@
 # Enhanced Dump
+
+[![Build Status](https://travis-ci.org/tomasfejfar/enhanced-dump.svg?branch=master)](https://travis-ci.org/tomasfejfar/enhanced-dump)
 ````
 o----php in index.php line 3----o
 array(2) {
@@ -10,28 +12,33 @@ array(2) {
 o-------------------------------o
 ````
 
+## Instalation
+
+### Using as auto-prepend file
+
 Add this file to your php.ini as auto prepend file:
 
 `auto_prepend_file = /some/path/fnc.php`
 
 then restart your apache/php. 
 
-## Using composer
+### Using composer
 
-`composer global require tomasfejfar/enhanced-dump`
-
-`auto_prepend_file = c:\Users\[USERNAME]\AppData\Roaming\Composer\vendor\tomasfejfar\enhanced-dump\fnc.php`
-
+`composer require tomasfejfar/enhanced-dump --dev`
 
 ## Usage:
-`d($array)` - vardumps with location
+`d()` - vardumps with location
 
-`dd($array)` - vardumps with location and die 
+`dd()` - vardumps with location and die 
 
-`ds($array)` - vardumps as string with location
+`ds()` - vardumps as string with location
 
-`dsd($array)` - vardumps as string with location and die
+`dsd()` - vardumps as string with location and die
 
-`dsql($zendDbSelect)` - vardumps as string into textarea with autoselect (useful for copying generated sql)
+`dsql($toString)` - vardumps as string into textarea with autoselect (useful for copying generated sql)
 
 `dmem()` - dumps memory info
+
+`dtable()` - dumps tabular data
+
+`dxml()` - pretty prints any XML
