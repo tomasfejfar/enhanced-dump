@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 class MethodsTest extends TestCase
 {
 
-	public function testWillDumpArray(): void
+	public function testWillDumpArray()
 	{
 		ob_start();
 		require __DIR__ . '/dump-convert-to-string.php';
@@ -22,7 +22,7 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillShowMemory(): void
+	public function testWillShowMemory()
 	{
 		ob_start();
 		dmem();
@@ -31,7 +31,7 @@ EXPECTED;
 		self::assertRegExp($pattern, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillDumpXml(): void
+	public function testWillDumpXml()
 	{
 		$xml = simplexml_load_file(__DIR__ . '/note.xml');
 		ob_start();

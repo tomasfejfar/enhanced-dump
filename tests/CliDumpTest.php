@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class CliDumpTest extends TestCase
 {
-	public function testWillDumpArray(): void
+	public function testWillDumpArray()
 	{
 		$test = [];
 		ob_start();
@@ -23,7 +23,7 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillReportCorrectFile(): void
+	public function testWillReportCorrectFile()
 	{
 		require_once __DIR__ . '/dump-in-class-or-function.php';
 		ob_start();
@@ -39,7 +39,7 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillReportCorrectMethod(): void
+	public function testWillReportCorrectMethod()
 	{
 		require_once __DIR__ . '/dump-in-class-or-function.php';
 		ob_start();
@@ -55,7 +55,7 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillReportCorrectClass(): void
+	public function testWillReportCorrectClass()
 	{
 		require_once __DIR__ . '/dump-in-class-or-function.php';
 		$obj = new EnhancedDumpSampleClass();
@@ -72,7 +72,7 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillWorkInDumpingWithoutFunctionOrClassAround(): void
+	public function testWillWorkInDumpingWithoutFunctionOrClassAround()
 	{
 		ob_start();
 		require __DIR__ . '/dump-directly-in-file.php';
@@ -87,7 +87,7 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillWorkInPlainPhp(): void
+	public function testWillWorkInPlainPhp()
 	{
 		$script = __DIR__ . '/dump-directly-in-file.php';
 		$process = new \Symfony\Component\Process\Process('php ' . $script);
@@ -109,7 +109,7 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
-	public function testWillDumpMultipleArguments(): void
+	public function testWillDumpMultipleArguments()
 	{
 
 		ob_start();
