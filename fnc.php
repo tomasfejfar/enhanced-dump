@@ -273,42 +273,29 @@ namespace {
 	 */
 	function dxml($xml)
 	{
-		$xml = null;
 		if ($xml instanceof DOMElement) {
+			$xml->ownerDocument->formatOutput = true;
+			$xml->ownerDocument->preserveWhiteSpace = false;
 			$xml = $xml->ownerDocument->saveXML($xml);
 		} else if ($xml instanceof DOMDocument) {
+			$xml->formatOutput = true;
+			$xml->preserveWhiteSpace = false;
 			$xml = $xml->saveXML();
 		} else if ($xml instanceof SimpleXMLElement) {
-			$xml = $xml->saveXML();
+			$dom = new DOMDocument('1.0');
+			$dom->preserveWhiteSpace = false;
+			$dom->formatOutput = true;
+			$dom->loadXML($xml->saveXML());
+			$xml = $dom->saveXML();
 		} else if (is_string($xml)) {
 			$xml = $xml;
 		}
 
-		// make the XML readable by human eye!
-		if (!is_null($xml)) {
-			$er = error_reporting();
-			error_reporting(0); // PEAR has lots of strict errors
-			if (class_exists('XML_Beautifier')) {
-				$fmt = new XML_Beautifier();
-				$xml = PHP_EOL . $fmt->formatString($xml, "Plain");
-			}
-			error_reporting($er);
-		}
-
-		echo EnhancedDump\webOnly('<div style="background:#f8f8f8;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
-		$trace = dtrace(debug_backtrace());
-		echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-		echo EnhancedDump\webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-		var_dump($xml) . PHP_EOL;
-		if (!is_null($xml)) {
-			if (class_exists('Zend_Debug')) { // replaces < > with &lt; &gt;
-				Zend_Debug::dump($xml) . PHP_EOL;
-			} else {
-				var_dump(htmlspecialchars($xml)) . PHP_EOL;
-			}
-		}
-		echo EnhancedDump\webOnly('</pre>' . PHP_EOL);
-		echo EnhancedDump\webOnly('</div>' . PHP_EOL);
-		EnhancedDump\cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+		$result = '';
+		$trace = EnhancedDump\dtrace(debug_backtrace());
+		$result .= EnhancedDump\dumpHeader($trace);
+		$result .= EnhancedDump\webOnly(htmlspecialchars($xml)) . EnhancedDump\cliOnly($xml);
+		$result .= EnhancedDump\dumpFooter($trace);
+		echo $result;
 	}
 }
