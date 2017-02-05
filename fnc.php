@@ -91,7 +91,6 @@ namespace {
 		$trace = dtrace(debug_backtrace());
 		$result .= EnhancedDump\dumpHeader($trace);
 
-
 		$args = func_get_args();
 		array_walk($args, function (&$item) {
 			$item = (string) $item;
@@ -111,17 +110,19 @@ namespace {
 	 */
 	function dsd($var, $label = null)
 	{
-		echo EnhancedDump\webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
-		if ($label) {
-			echo "<strong>" . $label . "</strong><br />" . PHP_EOL;
-		}
+		$result = '';
 		$trace = dtrace(debug_backtrace());
-		echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-		echo EnhancedDump\webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-		var_dump((string) $var) . PHP_EOL;
-		echo EnhancedDump\webOnly('</pre>' . PHP_EOL);
-		echo EnhancedDump\webOnly('</div>' . PHP_EOL);
-		EnhancedDump\cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+		$result .= EnhancedDump\dumpHeader($trace);
+
+		$args = func_get_args();
+		array_walk($args, function (&$item) {
+			$item = (string) $item;
+		});
+		ob_start();
+		call_user_func_array('var_dump', $args);
+		$result .= ob_get_clean();
+		$result .= dumpFooter($trace);
+		echo $result;
 		die();
 	}
 
@@ -135,16 +136,16 @@ namespace {
 		if (!headers_sent()) {
 			header('Content-Type:text/html; charset=utf-8');
 		}
-		echo EnhancedDump\webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+		$result = '';
 		$trace = dtrace(debug_backtrace());
-		echo PHP_EOL . PHP_EOL . 'o----' . $trace . '----o' . PHP_EOL;
-		echo EnhancedDump\webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-		echo EnhancedDump\webOnly('<textarea style="width:100%;height:100%" onclick="this.select()">' . PHP_EOL);
+		$result .= EnhancedDump\dumpHeader($trace);
+		$result .= EnhancedDump\webOnly('<textarea style="width:100%;height:100%" onclick="this.select()">' . PHP_EOL);
+		ob_start();
 		echo (string) $var . PHP_EOL;
-		echo EnhancedDump\webOnly('</textarea>');
-		echo EnhancedDump\webOnly('</pre>' . PHP_EOL);
-		echo EnhancedDump\webOnly('</div>' . PHP_EOL);
-		EnhancedDump\cliOnly('o----' . str_repeat('-', strlen($trace)) . '----o' . PHP_EOL . PHP_EOL);
+		$result .= ob_get_clean();
+		$result .= EnhancedDump\webOnly('</textarea>');
+		$result .= dumpFooter($trace);
+		echo $result;
 		die();
 	}
 
@@ -153,15 +154,27 @@ namespace {
 	 */
 	function dmem()
 	{
-		echo EnhancedDump\webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
+		$result = '';
+		$result .= EnhancedDump\webOnly('<div style="background:#fafafa;margin:5px;padding:5px;border: solid grey 1px;">' . PHP_EOL);
 		$trace = dtrace(debug_backtrace());
-		echo PHP_EOL . PHP_EOL . 'o---- ' . $trace . ' ----o' . PHP_EOL;
-		echo EnhancedDump\webOnly('<pre style="margin:0px;padding:0px;">' . PHP_EOL);
-		EnhancedDump\cliOnly('| ');
-		echo round(memory_get_peak_usage() / 1024) . 'K of ' . ini_get("memory_limit") . PHP_EOL;
-		echo EnhancedDump\webOnly('</pre>' . PHP_EOL);
-		echo EnhancedDump\webOnly('</div>' . PHP_EOL);
-		EnhancedDump\cliOnly('o-----' . str_repeat('-', strlen($trace)) . '-----o' . PHP_EOL . PHP_EOL);
+		$memUsage = memory_get_usage();
+		$units = [
+			1024 => 'K',
+			1024 * 1024 => 'M',
+			1024 * 1024 * 1024 => 'G',
+		];
+		$memory = $memUsage;
+		$unit = '';
+		foreach ($units as $amount => $unit) {
+			if (($memUsage / $amount) < 1024) {
+				$precision = (strlen($amount) - 1) / 3 - 1;
+				$memory = round($memUsage / $amount, $precision);
+				break;
+			}
+		}
+		$result .= sprintf('%s%s of %s (%s)', $memory, $unit, ini_get("memory_limit"), $trace);
+		$result .= EnhancedDump\webOnly('</div>' . PHP_EOL);
+		echo $result;
 	}
 
 	/**

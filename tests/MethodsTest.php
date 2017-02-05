@@ -22,6 +22,15 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
+	public function testWillShowMemory(): void
+	{
+		ob_start();
+		dmem();
+		$actual = ob_get_clean();
+		$pattern = '/\d+(\.\d+)?M of .* \(MethodsTest->testWillShowMemory\(\) in MethodsTest.php:28\)/';
+		self::assertRegExp($pattern, self::normalizeLineEndings($actual));
+	}
+
 	/**
 	 * Normalizes line ending as the dump uses PHP_EOL but the expected string has linux endings
 	 *
