@@ -204,7 +204,6 @@ namespace {
 		echo $result;
 	}
 
-
 	/**
 	 * Dump two dimensional array as table
 	 *
@@ -288,7 +287,11 @@ namespace {
 			$dom->loadXML($xml->saveXML());
 			$xml = $dom->saveXML();
 		} else if (is_string($xml)) {
-			$xml = $xml;
+			$dom = new DOMDocument('1.0');
+			$dom->preserveWhiteSpace = false;
+			$dom->formatOutput = true;
+			$dom->loadXML($xml);
+			$xml = $dom->saveXML();
 		}
 
 		$result = '';

@@ -53,6 +53,28 @@ EXPECTED;
 		self::assertSame($expected, self::normalizeLineEndings($actual));
 	}
 
+	public function testWillDumpXmlFromString()
+	{
+		$xml = file_get_contents(__DIR__ . '/note.xml');
+		ob_start();
+		dxml($xml);
+		$actual = ob_get_clean();
+		$expected = <<<EXPECTED
+
+o---- MethodsTest->testWillDumpXmlFromString() in MethodsTest.php:60 ----o
+<?xml version="1.0" encoding="UTF-8"?>
+<note>
+  <to>Tove</to>
+  <from>Jani</from>
+  <heading>Reminder</heading>
+  <body>Don't forget me this weekend!</body>
+</note>
+o------------------------------------------------------------------------o
+
+EXPECTED;
+		self::assertSame($expected, self::normalizeLineEndings($actual));
+	}
+
 	/**
 	 * Normalizes line ending as the dump uses PHP_EOL but the expected string has linux endings
 	 *
