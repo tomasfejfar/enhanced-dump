@@ -12,7 +12,7 @@ array(2) {
 o-------------------------------o
 ````
 
-## Instalation
+## Installation
 
 ### Using as auto-prepend file
 
